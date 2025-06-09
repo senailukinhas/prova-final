@@ -15,12 +15,22 @@ exports.criartarefas = (req,res) => {
     );
 };
 
-exports.listartarefas= (req,res) => {
-    conexao.query("SELECT * FROM tarefas",(err,results) => {
-        if(err)return res.status(500).send("erro ao buscar tarefas");
-        res.status(200).send(results)
-    })
-};
+exports.listartarefas = (req, res) => {
+    conexao.query("SELECT * FROM tarefas", (err, results) => {
+      if (err) return res.status(500).send("Erro ao buscar tarefas");
+      res.status(200).send(results);
+    });
+  };
+  
+  exports.filtrartarefas = (req, res) => {
+    const { status } = req.query; 
+  
+    conexao.query("SELECT * FROM tarefas WHERE status = ?", [status], (err, results) => {
+      if (err) return res.status(500).send("Erro ao buscar tarefas");
+      res.status(200).send(results);
+    });
+  };
+
 exports.atualizartarefas = (req, res) => {
     const { id } = req.params;
     const { titulo, descricao, status } = req.body;
